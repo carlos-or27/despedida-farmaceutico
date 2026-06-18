@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Despedida de Soltero! 🍻</title>
+    <title>¡Última Dosis de Libertad! 🍻</title>
     <!-- Librería para la explosión de confeti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <style>
@@ -82,7 +82,7 @@
         }
         h1 { 
             color: #203a43; 
-            font-size: 30px; 
+            font-size: 28px; 
             margin: 0 0 15px 0;
             text-transform: uppercase;
             letter-spacing: -1px;
@@ -128,7 +128,7 @@
                 max-width: 75%;
             }
             h1 {
-                font-size: 26px;
+                font-size: 24px;
             }
         }
     </style>
@@ -136,6 +136,7 @@
 <body>
 
 <div class="container">
+    <!-- Botones de idioma -->
     <div class="lang-buttons">
         <button class="lang-btn active" onclick="setLanguage('es')">🇪🇸 ES</button>
         <button class="lang-btn" onclick="setLanguage('pt')">🇵🇹 PT</button>
@@ -143,29 +144,34 @@
     </div>
 
     <div class="main-content">
+        <!-- Columna de la foto -->
         <div class="groom-column">
             <img src="https://raw.githubusercontent.com/carlos-or27/despedida-farmaceutico/main/novio.png" class="groom-pic" alt="Último paseo en libertad">
         </div>
         
+        <!-- Columna de los textos -->
         <div class="text-column">
+            <!-- Español -->
             <div id="lang-es" class="lang-content">
-                <h1>¡EL FARMACÉUTICO CAE! 💍</h1>
-                <p>¡Sí, es su último paseo en libertad! Para celebrarlo, esta noche tenemos una misión interactiva para ti.</p>
-                <p>Busca al novio y **pídele un caramelo azul** 🍬.</p>
-                <p class="highlight">🍻 Si nos encuentras esta noche y todavía guardas el caramelo... ¡TE INVITAMOS A UNA CERVEZA BIEN FRESCA! 🍻</p>
+                <h1>💊 ¡ÚLTIMA DOSIS DE LIBERTAD! 💍</h1>
+                <p>El farmacéutico cuelga la bata por una buena causa (o eso cree él).</p>
+                <p>Para celebrarlo, tienes que interceptar al novio allá donde esté y exigirle tu **caramelo azul** 🍬.</p>
+                <p class="highlight">🍻 ¡Si esta noche nos encuentras y aún tienes el caramelo, te invitamos a una cerveza bien fría! 🍻</p>
             </div>
 
+            <!-- Portugués -->
             <div id="lang-pt" class="lang-content" style="display:none;">
-                <h1>O FARMACÊUTICO CAIU! 💍</h1>
-                <p>Sim, é o seu Academic passeio em liberdade! Para celebrar, esta noite temos uma missão interativa para ti.</p>
-                <p>Procura o noivo e **pede-lhe um caramelo azul** 🍬.</p>
+                <h1>💊 ÚLTIMA DOSE DE LIBERDADE! 💍</h1>
+                <p>O farmacêutico pendura a bata por uma boa causa (o pelo menos é o que ele acha).</p>
+                <p>Para celebrar, tens de intercetar o noivo onde quer que ele esteja e exigir o teu **caramelo azul** 🍬.</p>
                 <p class="highlight">🍻 Se nos encontrares esta noite e ainda tiveres o caramelo... ¡PAGAMOS-TE UMA CERVEJA BEM FRESCA! 🍻</p>
             </div>
 
+            <!-- Inglés -->
             <div id="lang-en" class="lang-content" style="display:none;">
-                <h1>THE PHARMACIST IS TAKEN! 💍</h1>
-                <p>Yes, it's his last walk in freedom! To celebrate, we have an interactive mission for you tonight.</p>
-                <p>Find the groom and **ask him for a blue candy** 🍬.</p>
+                <h1>💊 LAST DOSE OF FREEDOM! 💍</h1>
+                <p>The pharmacist hangs up his lab coat for a good cause (or so he thinks).</p>
+                <p>To celebrate, you have to intercept the groom wherever he is and demand your **blue candy** 🍬.</p>
                 <p class="highlight">🍻 If you find us tonight and you still have the candy... WE'LL BUY YOU A COLD BEER! 🍻</p>
             </div>
         </div>
@@ -173,7 +179,6 @@
 </div>
 
 <script>
-    // Cambiar idioma
     function setLanguage(lang) {
         document.querySelectorAll('.lang-content').forEach(el => el.style.display = 'none');
         document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
@@ -181,34 +186,21 @@
         event.currentTarget.classList.add('active');
     }
 
-    // Efecto de Confeti al abrir la web (Duración: 5 segundos)
+    // Animación de confeti de 5 segundos
     window.addEventListener('DOMContentLoaded', () => {
-        // 1. Explosión central masiva inicial
-        confetti({
-            particleCount: 120,
-            spread: 80,
-            origin: { y: 0.5 }
-        });
+        confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
 
-        // 2. Lluvia continua desde los lados durante 5 segundos
         var duration = 5 * 1000;
         var animationEnd = Date.now() + duration;
         var defaults = { startVelocity: 25, spread: 360, ticks: 50, zIndex: 9999 };
 
-        function randomInRange(min, max) {
-            return Math.random() * (max - min) + min;
-        }
+        function randomInRange(min, max) { return Math.random() * (max - min) + min; }
 
         var interval = setInterval(function() {
             var timeLeft = animationEnd - Date.now();
-
-            if (timeLeft <= 0) {
-                return clearInterval(interval);
-            }
-
+            if (timeLeft <= 0) return clearInterval(interval);
             var particleCount = 40 * (timeLeft / duration);
             
-            // Disparos alternados desde las esquinas inferiores
             confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
             confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
         }, 250);
