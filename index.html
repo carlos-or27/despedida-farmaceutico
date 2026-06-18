@@ -9,42 +9,45 @@
     <style>
         body { 
             font-family: 'Arial Black', Impact, sans-serif; 
-            
-            /* Fondo: Receta médica con cuadrícula y manchas de cerveza */
-            background-color: #f4f7f6;
-            background-image: 
-                linear-gradient(rgba(0, 123, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 123, 255, 0.05) 1px, transparent 1px),
-                radial-gradient(circle at 15% 25%, rgba(212, 143, 56, 0.15) 0%, rgba(212, 143, 56, 0.05) 35%, transparent 60%),
-                radial-gradient(circle at 85% 75%, rgba(184, 115, 51, 0.12) 0%, rgba(184, 115, 51, 0.03) 40%, transparent 65%);
-            background-size: 24px 24px, 24px 24px, 100% 100%, 100% 100%;
-            
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px; 
-            margin: 0; 
-            box-sizing: border-box;
+
+            /* --- FONDO OPCIÓN 2: FIESTA NOCTURNA (MODO NEÓN OSCURO) --- */
+            background-color: #0b0f19;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 123, 255, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 90% 80%, rgba(220, 53, 69, 0.1) 0%, transparent 45%);
+            /* ----------------------------------------------------------- */
         }
+
         .container { 
             width: 100%;
             max-width: 850px; 
-            background: white; 
+            background: #ffffff; /* Contenedor blanco para contraste */
             padding: 35px; 
             border-radius: 24px; 
-            box-shadow: 0 12px 40px rgba(0,0,0,0.12); 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); /* Sombra más fuerte para fondo oscuro */
             border: 4px solid #203a43;
             position: relative;
         }
+
+        /* Símbolo "+" decorativo (ajustado color para contenedor blanco) */
         .container::before {
             content: "＋";
             position: absolute;
             top: 15px;
             right: 25px;
-            color: rgba(220, 53, 69, 0.15);
+            color: rgba(220, 53, 69, 0.2);
             font-size: 35px;
         }
+
+        /* Botones de idioma */
         .lang-buttons { 
             margin-bottom: 25px; 
             text-align: center;
@@ -59,6 +62,7 @@
             font-weight: bold; 
             font-size: 16px; 
             transition: 0.2s; 
+            color: #333;
         }
         .lang-btn.active { 
             background: #dc3545; 
@@ -66,6 +70,8 @@
             border-color: #bd2130;
             box-shadow: 0 4px 10px rgba(220,53,69,0.3);
         }
+
+        /* Disposición principal (Escritorio) */
         .main-content {
             display: flex;
             flex-direction: row;
@@ -80,6 +86,8 @@
             flex: 1.3;
             text-align: left;
         }
+
+        /* Tipografía textos */
         h1 { 
             color: #203a43; 
             font-size: 28px; 
@@ -96,13 +104,22 @@
             color: #444;
             margin: 12px 0;
         }
+        /* Estilo para las negritas requeridas */
+        strong {
+            font-weight: bold;
+            color: #203a43;
+        }
+
+        /* Imagen del novio */
         .groom-pic {
             max-width: 100%;
             max-height: 360px;
             height: auto;
             border-radius: 20px;
-            filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.15));
+            filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.2));
         }
+
+        /* Cuadro de destacado (Cerveza) */
         .highlight { 
             background-color: #fff3cd; 
             padding: 18px; 
@@ -116,6 +133,8 @@
             box-shadow: 0 4px 12px rgba(225,193,85,0.2);
             text-align: center;
         }
+
+        /* Adaptación para móviles */
         @media (max-width: 700px) {
             .main-content {
                 flex-direction: column;
@@ -151,27 +170,27 @@
         
         <!-- Columna de los textos -->
         <div class="text-column">
-            <!-- Español -->
+            <!-- Español (TEXTOS ACTUALIZADOS) -->
             <div id="lang-es" class="lang-content">
                 <h1>💊 ¡ÚLTIMA DOSIS DE LIBERTAD! 💍</h1>
                 <p>El farmacéutico cuelga la bata por una buena causa (o eso cree él).</p>
-                <p>Para celebrarlo, tienes que interceptar al novio allá donde esté y exigirle tu **caramelo azul** 🍬.</p>
+                <p>Para celebrarlo, tienes que interceptarlo allá donde esté y exigirle tu <strong>caramelo azul</strong> 🍬.</p>
                 <p class="highlight">🍻 ¡Si esta noche nos encuentras y aún tienes el caramelo, te invitamos a una cerveza bien fría! 🍻</p>
             </div>
 
-            <!-- Portugués -->
+            <!-- Portugués (Mantenido) -->
             <div id="lang-pt" class="lang-content" style="display:none;">
                 <h1>💊 ÚLTIMA DOSE DE LIBERDADE! 💍</h1>
                 <p>O farmacêutico pendura a bata por uma boa causa (o pelo menos é o que ele acha).</p>
-                <p>Para celebrar, tens de intercetar o noivo onde quer que ele esteja e exigir o teu **caramelo azul** 🍬.</p>
+                <p>Para celebrar, tens de intercetar o noivo onde quer que ele esteja e exigir o teu <strong>caramelo azul</strong> 🍬.</p>
                 <p class="highlight">🍻 Se nos encontrares esta noite e ainda tiveres o caramelo... ¡PAGAMOS-TE UMA CERVEJA BEM FRESCA! 🍻</p>
             </div>
 
-            <!-- Inglés -->
+            <!-- Inglés (Mantenido) -->
             <div id="lang-en" class="lang-content" style="display:none;">
                 <h1>💊 LAST DOSE OF FREEDOM! 💍</h1>
                 <p>The pharmacist hangs up his lab coat for a good cause (or so he thinks).</p>
-                <p>To celebrate, you have to intercept the groom wherever he is and demand your **blue candy** 🍬.</p>
+                <p>To celebrate, you have to intercept the groom wherever he is and demand your <strong>blue candy</strong> 🍬.</p>
                 <p class="highlight">🍻 If you find us tonight and you still have the candy... WE'LL BUY YOU A COLD BEER! 🍻</p>
             </div>
         </div>
@@ -179,28 +198,47 @@
 </div>
 
 <script>
+    // Función para cambiar idioma
     function setLanguage(lang) {
+        // Ocultar todos los contenidos
         document.querySelectorAll('.lang-content').forEach(el => el.style.display = 'none');
+        // Desactivar todos los botones
         document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        
+        // Mostrar el seleccionado y activar su botón
         document.getElementById('lang-' + lang).style.display = 'block';
         event.currentTarget.classList.add('active');
     }
 
-    // Animación de confeti de 5 segundos
+    // Efecto de Confeti al abrir la web (Duración: 5 segundos)
     window.addEventListener('DOMContentLoaded', () => {
-        confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
+        // 1. Explosión central masiva inicial
+        confetti({
+            particleCount: 120,
+            spread: 80,
+            origin: { y: 0.5 },
+            zIndex: 9999
+        });
 
+        // 2. Lluvia continua desde los lados durante 5 segundos
         var duration = 5 * 1000;
         var animationEnd = Date.now() + duration;
         var defaults = { startVelocity: 25, spread: 360, ticks: 50, zIndex: 9999 };
 
-        function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+        function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+        }
 
         var interval = setInterval(function() {
             var timeLeft = animationEnd - Date.now();
-            if (timeLeft <= 0) return clearInterval(interval);
+
+            if (timeLeft <= 0) {
+                return clearInterval(interval);
+            }
+
             var particleCount = 40 * (timeLeft / duration);
             
+            // Disparos alternados desde las esquinas inferiores
             confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
             confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
         }, 250);
