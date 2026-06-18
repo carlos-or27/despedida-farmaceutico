@@ -7,7 +7,6 @@
     <!-- Librería para la explosión de confeti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <style>
-        /* --- FONDO ANIMADO ESTILO NEÓN DE BAR --- */
         body { 
             font-family: 'Arial Black', Impact, sans-serif; 
             margin: 0; 
@@ -19,13 +18,10 @@
             justify-content: center;
             padding: 20px; 
 
-            /* Color base muy oscuro */
-            background-color: #050505;
-            
-            /* El truco: Usamos SVG en base64 para crear un patrón de fondo repetitivo con neones */
-            /* Incluye: Cerveza amarilla, texto rosa "Se casa Javi" y cruz verde farmacia */
-            background-image: url("data:image/svg+xml,%3Csvg width='300' height='300' xmlns='http://www.w3.org/2000/svg'%3E%3C!-- Cerveza Neón Amarilla --%3E%3Cg transform='translate(20, 30) rotate(-15)'%3E%3Cpath d='M10,20 L10,50 C10,55 15,60 20,60 L40,60 C45,60 50,55 50,50 L50,20 Z' fill='none' stroke='%23ffeb3b' stroke-width='3' style='filter: drop-shadow(0 0 5px %23ffeb3b);'/%3E%3Cpath d='M50,30 L60,30 C65,30 65,50 60,50 L50,50' fill='none' stroke='%23ffeb3b' stroke-width='3' style='filter: drop-shadow(0 0 5px %23ffeb3b);'/%3E%3Cpath d='M5,20 Q30,10 55,20' fill='none' stroke='%23ffffff' stroke-width='4' style='filter: drop-shadow(0 0 5px %23ffffff);'/%3E%3C/g%3E%3C!-- Texto Neón Rosa --%3E%3Cg transform='translate(150, 80) rotate(10)'%3E%3Ctext x='0' y='0' font-family='Arial Black' font-size='24' fill='none' stroke='%23ff00ff' stroke-width='2' style='filter: drop-shadow(0 0 8px %23ff00ff);'%3ESe casa Javi%3C/text%3E%3C/g%3E%3C!-- Cruz Farmacia Neón Verde --%3E%3Cg transform='translate(80, 180) rotate(25)'%3E%3Cpath d='M20,0 L40,0 L40,20 L60,20 L60,40 L40,40 L40,60 L20,60 L20,40 L0,40 L0,20 L20,20 Z' fill='none' stroke='%2300ff00' stroke-width='3' style='filter: drop-shadow(0 0 8px %2300ff00);'/%3E%3C/g%3E%3C!-- Cerveza Neón 2 --%3E%3Cg transform='translate(220, 220) rotate(-25)'%3E%3Cpath d='M10,20 L10,50 C10,55 15,60 20,60 L40,60 C45,60 50,55 50,50 L50,20 Z' fill='none' stroke='%2300e5ff' stroke-width='3' style='filter: drop-shadow(0 0 5px %2300e5ff);'/%3E%3Cpath d='M50,30 L60,30 C65,30 65,50 60,50 L50,50' fill='none' stroke='%2300e5ff' stroke-width='3' style='filter: drop-shadow(0 0 5px %2300e5ff);'/%3E%3C/g%3E%3C/svg%3E");
-            background-size: 300px 300px;
+            /* --- FONDO DE NEONES: SOLO CERVEZAS Y COPAS --- */
+            background-color: #070913;
+            background-image: url("data:image/svg+xml,%3Csvg width='180' height='180' xmlns='http://www.w3.org/2000/svg'%3E%3C!-- Jarra de Cerveza Amarilla --%3E%3Cg transform='translate(30, 25) rotate(-10)'%3E%3Cpath d='M10,20 L10,45 C10,49 13,52 17,52 L33,52 C37,52 40,49 40,45 L40,20 Z' fill='none' stroke='%23ffeb3b' stroke-width='2.5' style='filter: drop-shadow(0 0 5px %23ffeb3b);'/%3E%3Cpath d='M40,27 L47,27 C50,27 50,40 47,40 L40,40' fill='none' stroke='%23ffeb3b' stroke-width='2.5' style='filter: drop-shadow(0 0 5px %23ffeb3b);'/%3E%3Cpath d='M7,20 Q25,12 43,20' fill='none' stroke='%23ffffff' stroke-width='3.5' style='filter: drop-shadow(0 0 4px %23ffffff);'/%3E%3C/g%3E%3C!-- Copa de Cóctel Cian --%3E%3Cg transform='translate(120, 105) rotate(15)'%3E%3Cpath d='M5,5 L40,5 L22.5,28 Z' fill='none' stroke='%2300e5ff' stroke-width='2.5' style='filter: drop-shadow(0 0 6px %2300e5ff);'/%3E%3Cline x1='22.5' y1='28' x2='22.5' y2='50' stroke='%2300e5ff' stroke-width='2.5' style='filter: drop-shadow(0 0 6px %2300e5ff);'/%3E%3Cline x1='10' y1='50' x2='35' y2='50' stroke='%2300e5ff' stroke-width='2.5' style='filter: drop-shadow(0 0 6px %2300e5ff);'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: 180px 180px;
             background-repeat: repeat;
         }
 
@@ -35,20 +31,19 @@
             background: #ffffff;
             padding: 35px; 
             border-radius: 24px; 
-            /* Sombra tipo neón azul para que la caja principal resalte sobre el fondo */
-            box-shadow: 0 0 40px rgba(0, 123, 255, 0.4); 
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); 
             border: 4px solid #203a43;
             position: relative;
-            z-index: 10; /* Asegura que la caja esté por encima del fondo */
+            z-index: 10;
         }
 
-        /* Símbolo "+" decorativo */
+        /* Símbolo "+" decorativo de farmacia */
         .container::before {
             content: "＋";
             position: absolute;
             top: 15px;
             right: 25px;
-            color: rgba(220, 53, 69, 0.2);
+            color: rgba(220, 53, 69, 0.15);
             font-size: 35px;
         }
 
@@ -76,7 +71,7 @@
             box-shadow: 0 4px 10px rgba(220,53,69,0.3);
         }
 
-        /* Disposición principal (Escritorio) */
+        /* Disposición de columnas */
         .main-content {
             display: flex;
             flex-direction: row;
@@ -92,7 +87,7 @@
             text-align: left;
         }
 
-        /* Tipografía textos */
+        /* Tipografías */
         h1 { 
             color: #203a43; 
             font-size: 28px; 
@@ -114,7 +109,7 @@
             color: #203a43;
         }
 
-        /* Imagen del novio */
+        /* Imagen de Javi */
         .groom-pic {
             max-width: 100%;
             max-height: 360px;
@@ -123,7 +118,7 @@
             filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.2));
         }
 
-        /* Cuadro de destacado (Cerveza) */
+        /* Cuadro destacado de la cerveza */
         .highlight { 
             background-color: #fff3cd; 
             padding: 18px; 
@@ -138,7 +133,7 @@
             text-align: center;
         }
 
-        /* Adaptación para móviles */
+        /* Responsive para móvil */
         @media (max-width: 700px) {
             .main-content {
                 flex-direction: column;
@@ -159,7 +154,7 @@
 <body>
 
 <div class="container">
-    <!-- Botones de idioma -->
+    <!-- Selector de idioma -->
     <div class="lang-buttons">
         <button class="lang-btn active" onclick="setLanguage('es')">🇪🇸 ES</button>
         <button class="lang-btn" onclick="setLanguage('pt')">🇵🇹 PT</button>
@@ -167,16 +162,16 @@
     </div>
 
     <div class="main-content">
-        <!-- Columna de la foto -->
+        <!-- Foto del novio -->
         <div class="groom-column">
             <img src="https://raw.githubusercontent.com/carlos-or27/despedida-farmaceutico/main/novio.png" class="groom-pic" alt="Último paseo en libertad">
         </div>
         
-        <!-- Columna de los textos -->
+        <!-- Textos informativos -->
         <div class="text-column">
             <!-- Español -->
             <div id="lang-es" class="lang-content">
-                <h1>💊 ÚLTIMA DOSIS DE LIBERTAD! 💍</h1>
+                <h1>💊 ÚLTIMA DOSIS DE LIBERTAD!</h1>
                 <p>El farmacéutico cuelga la bata por una buena causa (o eso cree él).</p>
                 <p>Para celebrarlo, tienes que interceptarlo allá donde esté y exigirle tu <strong>caramelo azul</strong> 🍬.</p>
                 <p class="highlight">🍻 ¡Si esta noche nos encuentras y aún tienes el caramelo, te invitamos a una cerveza bien fría! 🍻</p>
@@ -184,7 +179,7 @@
 
             <!-- Portugués -->
             <div id="lang-pt" class="lang-content" style="display:none;">
-                <h1>💊 ÚLTIMA DOSE DE LIBERDADE! 💍</h1>
+                <h1>💊 ÚLTIMA DOSE DE LIBERDADE!</h1>
                 <p>O farmacêutico pendura a bata por uma boa causa (o pelo menos é o que ele acha).</p>
                 <p>Para celebrar, tens de intercetar o noivo onde quer que ele esteja e exigir o teu <strong>caramelo azul</strong> 🍬.</p>
                 <p class="highlight">🍻 Se nos encontrares esta noite e ainda tiveres o caramelo... ¡PAGAMOS-TE UMA CERVEJA BEM FRESCA! 🍻</p>
@@ -192,7 +187,7 @@
 
             <!-- Inglés -->
             <div id="lang-en" class="lang-content" style="display:none;">
-                <h1>💊 LAST DOSE OF FREEDOM! 💍</h1>
+                <h1>💊 LAST DOSE OF FREEDOM!</h1>
                 <p>The pharmacist hangs up his lab coat for a good cause (or so he thinks).</p>
                 <p>To celebrate, you have to intercept the groom wherever he is and demand your <strong>blue candy</strong> 🍬.</p>
                 <p class="highlight">🍻 If you find us tonight and you still have the candy... WE'LL BUY YOU A COLD BEER! 🍻</p>
@@ -202,36 +197,26 @@
 </div>
 
 <script>
-    // Función para cambiar idioma
     function setLanguage(lang) {
         document.querySelectorAll('.lang-content').forEach(el => el.style.display = 'none');
         document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-        
         document.getElementById('lang-' + lang).style.display = 'block';
         event.currentTarget.classList.add('active');
     }
 
-    // Efecto de Confeti (Duración: 5 segundos)
+    // Efecto de Confeti automático (5 segundos)
     window.addEventListener('DOMContentLoaded', () => {
-        confetti({
-            particleCount: 120,
-            spread: 80,
-            origin: { y: 0.5 },
-            zIndex: 9999
-        });
+        confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 }, zIndex: 9999 });
 
         var duration = 5 * 1000;
         var animationEnd = Date.now() + duration;
         var defaults = { startVelocity: 25, spread: 360, ticks: 50, zIndex: 9999 };
 
-        function randomInRange(min, max) {
-            return Math.random() * (max - min) + min;
-        }
+        function randomInRange(min, max) { return Math.random() * (max - min) + min; }
 
         var interval = setInterval(function() {
             var timeLeft = animationEnd - Date.now();
             if (timeLeft <= 0) return clearInterval(interval);
-
             var particleCount = 40 * (timeLeft / duration);
             
             confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
