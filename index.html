@@ -21,7 +21,7 @@
             position: relative;
             transition: background 0.3s ease;
 
-            /* --- GRADIENTE REAL OVIEDO (MEJORADO) --- */
+            /* --- GRADIENTE REAL OVIEDO --- */
             background: linear-gradient(135deg, #002A54 0%, #00529F 50%, #002A54 100%);
         }
 
@@ -61,7 +61,7 @@
             z-index: 1;
             width: 120px; 
             height: auto;
-            pointer-events: auto; /* Permite interactuar con ellos */
+            pointer-events: auto; 
             opacity: 0.95; 
             
             /* Sombra que contornea perfectamente la silueta recortada del sticker */
@@ -73,10 +73,10 @@
 
         /* Efecto mareo al interactuar con el sticker */
         .bg-sticker:hover {
-            animation-duration: 3s !important; /* Gira más rápido al pasar el cursor */
+            animation-duration: 3s !important; 
         }
         .bg-sticker:active {
-            animation-duration: 0.2s !important; /* ¡Gira como loco al clickar/tocar! */
+            animation-duration: 0.2s !important; 
             transform: scale(1.3) !important;
         }
 
@@ -269,10 +269,10 @@
             font-weight: bold;
             font-size: 15px;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.2s ease;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        .action-btn:hover { transform: scale(1.05); }
+        .action-btn:hover:not(:disabled) { transform: scale(1.05); }
 
         /* --- SECCIÓN DESPEDIDOL Y PROSPECTO --- */
         .despedidol-section {
@@ -353,7 +353,7 @@
     <p style="font-size: 16px; color: #aaa;">(Toca cualquier parte de la pantalla para apagar la alarma)</p>
 </div>
 
-<!-- STICKERS DE JAVI EN EL FONDO (CON FILTRO CONTORNO DE STICKER) -->
+<!-- STICKERS DE JAVI EN EL FONDO -->
 <img src="novio-sticker.png" class="bg-sticker" style="top: 8%; left: 4%; animation-duration: 28s;" alt="Javi">
 <img src="novio-sticker.png" class="bg-sticker" style="top: 12%; right: 5%; animation-duration: 22s; animation-direction: reverse;" alt="Javi">
 <img src="novio-sticker.png" class="bg-sticker" style="top: 45%; left: 2%; animation-duration: 32s; animation-direction: reverse;" alt="Javi">
@@ -409,13 +409,14 @@
         </div>
     </div>
 
-    <!-- ZONA INTERACTIVA (CHUPITÓMETRO Y EXPRES RECETA) -->
+    <!-- ZONA INTERACTIVA (CHUPITÓMETRO Y EXPRESS RECETA) -->
     <div class="interactive-zone">
         <div class="interactive-card">
             <h3>🎚️ CHUPITÓMETRO VIRTUAL</h3>
             <p style="font-family:'Arial',sans-serif; font-size:14px; margin:5px 0 12px 0;">¿Le has pagado una copa/cerveza real a Javi?</p>
             <div id="chupito-num" style="font-size:36px; color:#dc3545; font-weight:bold; margin-bottom:10px;">0</div>
-            <button class="action-btn" style="background:#28a745; color:white;" onclick="sumarChupito()">¡Invitar a Dosis! 🥃</button>
+            <!-- SE HA AÑADIDO ID PARA EL CONTROL ANTI-SPAM -->
+            <button id="btn-chupito" class="action-btn" style="background:#28a745; color:white;" onclick="sumarChupito()">¡Invitar a Dosis! 🥃</button>
         </div>
         <div class="interactive-card">
             <h3>🩺 DIAGNÓSTICO EXPRESS</h3>
@@ -480,7 +481,7 @@
 <script>
     let idiomaActual = 'es';
 
-    // Cambiar de idioma y sincronizar los prospectos
+    // Cambiar de idioma y sincronizar interfaces
     function setLanguage(lang) {
         idiomaActual = lang;
         document.querySelectorAll('.lang-content').forEach(el => el.style.display = 'none');
@@ -488,16 +489,19 @@
         document.getElementById('lang-' + lang).style.display = 'block';
         event.currentTarget.classList.add('active');
 
-        // Sincronizar textos del prospecto si estuviera abierto
+        // Sincronizar textos del prospecto
         document.querySelectorAll('.prospecto-lang').forEach(el => el.style.display = 'none');
         document.getElementById('prospecto-' + lang).style.display = 'block';
 
-        // Traducción rápida del texto de aviso de la caja
+        // Traducción del aviso de la caja
         const txtCaja = document.getElementById('txt-clic-caja');
         if(lang === 'es') txtCaja.innerText = "👇 ¡Toca la caja para leer el prospecto médico! 👇";
         if(lang === 'pt') txtCaja.innerText = "👇 Toque na caixa para ler o folheto informativo! 👇";
         if(lang === 'en') txtCaja.innerText = "👇 Tap the box to read the patient leaflet! 👇";
         
+        // Actualizar el estado del botón bloqueado si ya votó
+        actualizarBotonChupito();
+
         confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 }, zIndex: 9999, colors: ['#dc3545', '#00529F', '#ffffff'] });
     }
 
@@ -517,15 +521,39 @@
         confetti({ particleCount: 80, spread: 100, origin: { y: 0.6 }, zIndex: 9999, colors: ['#28a745', '#00529F', '#FFD700'] });
     }
 
-    // Chupitómetro LocalStorage
+    // --- LOGICA DEL CHUPITÓMETRO CON BLOQUEO (ANTI-HACKEO) ---
     if(!localStorage.getItem('chupitos')) localStorage.setItem('chupitos', '0');
     document.getElementById('chupito-num').innerText = localStorage.getItem('chupitos');
 
     function sumarChupito() {
+        // Si ya ha hecho clic en el pasado, la función se detiene por seguridad
+        if(localStorage.getItem('yaInvito') === 'true') return;
+
         let count = parseInt(localStorage.getItem('chupitos')) + 1;
         localStorage.setItem('chupitos', count);
+        localStorage.setItem('yaInvito', 'true'); // Guardamos la marca de "ya votado"
+        
         document.getElementById('chupito-num').innerText = count;
+        actualizarBotonChupito(); // Deshabilitamos visualmente el botón
+
         confetti({ particleCount: 40, scalar: 1.2, text: '🥃' });
+    }
+
+    // Función encargada de capar y traducir el botón si ya se pulsó
+    function actualizarBotonChupito() {
+        const btn = document.getElementById('btn-chupito');
+        if (localStorage.getItem('yaInvito') === 'true') {
+            btn.disabled = true;
+            btn.style.background = '#64748b'; // Color gris de bloqueado
+            btn.style.opacity = '0.6';
+            btn.style.cursor = 'not-allowed';
+            btn.style.transform = 'none';
+            
+            // Texto según idioma seleccionado
+            if (idiomaActual === 'es') btn.innerText = "¡Ya le has invitado! 🍻";
+            if (idiomaActual === 'pt') btn.innerText = "Já o convidaste! 🍻";
+            if (idiomaActual === 'en') btn.innerText = "Already invited! 🍻";
+        }
     }
 
     // Generador de Diagnósticos Dinámicos
@@ -566,8 +594,10 @@
         document.getElementById('panic-banner').style.display = 'none';
     }
 
-    // Confeti de inicio automático (5 segundos)
+    // Comprobación inicial de carga
     window.addEventListener('DOMContentLoaded', () => {
+        actualizarBotonChupito(); // Asegura que el botón amanezca bloqueado si ya cliqueó ayer
+
         confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 }, zIndex: 9999 });
         var duration = 5 * 1000;
         var animationEnd = Date.now() + duration;
