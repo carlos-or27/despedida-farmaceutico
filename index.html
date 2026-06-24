@@ -33,11 +33,17 @@
         .bg-sticker {
             position: fixed;
             z-index: 1;
-            width: 130px; /* Tamaño de los stickers de fondo */
+            width: 130px; 
             height: auto;
-            pointer-events: none; /* Para que no estorben al hacer clic en la web */
-            opacity: 0.25; /* Transparencia para que se note el efecto sin tapar el texto */
-            animation: rotarSticker 25s linear infinite; /* Rotación continua y suave */
+            pointer-events: none; 
+            opacity: 0.25; 
+            animation: rotarSticker 25s linear infinite; 
+        }
+
+        /* --- ANIMACIÓN DE ENTRADA DEL CONTENEDOR --- */
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         .container { 
@@ -49,20 +55,27 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); 
             border: 4px solid #203a43;
             position: relative;
-            z-index: 10; /* Se mantiene por encima de los stickers */
+            z-index: 10; 
+            animation: fadeInScale 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
-        /* Símbolo "+" decorativo de farmacia */
+        /* --- CRUZ DE FARMACIA NEÓN --- */
+        @keyframes neonGlow {
+            0%, 100% { text-shadow: 0 0 10px rgba(40, 167, 69, 0.5), 0 0 20px rgba(40, 167, 69, 0.3); opacity: 0.8; }
+            50% { text-shadow: 0 0 20px rgba(40, 167, 69, 0.8), 0 0 30px rgba(40, 167, 69, 0.6); opacity: 1; }
+        }
+
         .container::before {
-            content: "＋";
+            content: "✚";
             position: absolute;
             top: 15px;
             right: 25px;
-            color: rgba(220, 53, 69, 0.15);
-            font-size: 35px;
+            color: #28a745;
+            font-size: 45px;
+            animation: neonGlow 2s infinite alternate;
         }
 
-        /* Botones de idioma */
+        /* --- BOTONES DE IDIOMA --- */
         .lang-buttons { 
             margin-bottom: 25px; 
             text-align: center;
@@ -76,17 +89,22 @@
             cursor: pointer; 
             font-weight: bold; 
             font-size: 16px; 
-            transition: 0.2s; 
+            transition: all 0.3s ease; 
             color: #333;
+        }
+        .lang-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .lang-btn.active { 
             background: #dc3545; 
             color: white; 
             border-color: #bd2130;
-            box-shadow: 0 4px 10px rgba(220,53,69,0.3);
+            box-shadow: 0 4px 15px rgba(220,53,69,0.4);
+            transform: scale(1.05);
         }
 
-        /* Disposición de columnas */
+        /* --- DISPOSICIÓN DE COLUMNAS --- */
         .main-content {
             display: flex;
             flex-direction: row;
@@ -102,38 +120,55 @@
             text-align: left;
         }
 
-        /* Tipografías */
+        /* --- TIPOGRAFÍAS --- */
         h1 { 
             color: #203a43; 
             font-size: 28px; 
             margin: 0 0 15px 0;
             text-transform: uppercase;
             letter-spacing: -1px;
-            border-bottom: 2px solid #dc3545;
-            padding-bottom: 5px;
+            border-bottom: 3px solid #dc3545;
+            padding-bottom: 8px;
         }
         p { 
             font-size: 18px; 
             line-height: 1.6; 
             font-family: 'Arial', sans-serif;
             color: #444;
-            margin: 12px 0;
+            margin: 14px 0;
         }
         strong {
             font-weight: bold;
             color: #203a43;
+            background-color: rgba(220, 53, 69, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
         }
 
-        /* Imagen de Javi */
+        /* --- FOTO INTERACTIVA DE JAVI --- */
         .groom-pic {
             max-width: 100%;
             max-height: 360px;
             height: auto;
             border-radius: 20px;
             filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.2));
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer; /* Cambia el cursor para invitar a tocar */
+        }
+        .groom-pic:hover, .groom-pic:active {
+            transform: scale(1.08) rotate(-3deg);
+            filter: drop-shadow(0px 15px 20px rgba(0,0,0,0.3));
         }
 
-        /* Cuadro destacado de la cerveza */
+        /* --- CUADRO DESTACADO CERVEZA (LATIDO) --- */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.03); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.03); }
+            70% { transform: scale(1); }
+        }
+
         .highlight { 
             background-color: #fff3cd; 
             padding: 18px; 
@@ -144,11 +179,12 @@
             margin-top: 25px; 
             border: 3px dashed #dc3545;
             color: #bd2130;
-            box-shadow: 0 4px 12px rgba(225,193,85,0.2);
+            box-shadow: 0 4px 12px rgba(225,193,85,0.4);
             text-align: center;
+            animation: heartbeat 2.5s infinite;
         }
 
-        /* Responsive para móvil */
+        /* --- RESPONSIVE PARA MÓVIL --- */
         @media (max-width: 700px) {
             .main-content {
                 flex-direction: column;
@@ -164,7 +200,12 @@
                 font-size: 24px;
             }
             .bg-sticker {
-                width: 90px; /* Un poco más pequeños en móvil para que no saturen */
+                width: 90px; 
+            }
+            .container::before {
+                font-size: 35px; /* Cruz más pequeña en móvil */
+                top: 10px;
+                right: 15px;
             }
         }
     </style>
@@ -172,7 +213,6 @@
 <body>
 
 <!-- STICKERS DE JAVI DE PEQUEÑO ROTANDO EN EL FONDO -->
-<!-- Se distribuyen por la pantalla con diferentes velocidades y direcciones de rotación -->
 <img src="novio-sticker.png" class="bg-sticker" style="top: 8%; left: 4%; animation-duration: 28s;" alt="Javi">
 <img src="novio-sticker.png" class="bg-sticker" style="top: 12%; right: 5%; animation-duration: 22s; animation-direction: reverse;" alt="Javi">
 <img src="novio-sticker.png" class="bg-sticker" style="top: 45%; left: 2%; animation-duration: 32s; animation-direction: reverse;" alt="Javi">
@@ -189,9 +229,9 @@
     </div>
 
     <div class="main-content">
-        <!-- Foto del novio -->
+        <!-- Foto del novio (AÑADIDO ONCLICK PARA CONFETI EXTRA) -->
         <div class="groom-column">
-            <img src="https://raw.githubusercontent.com/carlos-or27/despedida-farmaceutico/main/novio.png" class="groom-pic" alt="Último paseo en libertad">
+            <img src="https://raw.githubusercontent.com/carlos-or27/despedida-farmaceutico/main/novio.png" class="groom-pic" alt="Último paseo en libertad" onclick="tirarConfetiExtra()" title="¡Tócame!">
         </div>
         
         <!-- Textos informativos -->
@@ -208,10 +248,10 @@
             <!-- Portugués -->
             <div id="lang-pt" class="lang-content" style="display:none;">
                 <h1>💊 ÚLTIMA DOSE DE LIBERDADE!</h1>
-                <p>O farmacêutico pendura a bata por uma boa causa (o pelo menos é o que ele acha).</p>
+                <p>O farmacêutico pendura a bata por uma boa causa (ou pelo menos é o que ele acha).</p>
                 <p>Para celebrar, tens de intercetar o noivo onde quer que ele esteja e exigir o teu <strong>caramelo azul</strong> 🍬.</p>
                 <p>📸 <strong>¡Imortaliza o momento!</strong> Tira uma foto ao noivo, publica-a nos teus stories e identifica-o no seu Instagram: <strong>@javieralo_so</strong></p>
-                <p class="highlight">🍻 Se nos encontrares esta noite e ainda tiveres o caramelo... ¡PAGAMOS-TE UMA CERVEJA BEM FRESCA! 🍻</p>
+                <p class="highlight">🍻 Se nos encontrares esta noite e ainda tiveres o caramelo... PAGAMOS-TE UMA CERVEJA BEM FRESCA! 🍻</p>
             </div>
 
             <!-- Inglés -->
@@ -227,16 +267,32 @@
 </div>
 
 <script>
+    // Cambiar de idioma
     function setLanguage(lang) {
         document.querySelectorAll('.lang-content').forEach(el => el.style.display = 'none');
         document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById('lang-' + lang).style.display = 'block';
         event.currentTarget.classList.add('active');
+        
+        // Un poquito de confeti cada vez que alguien cambia de idioma
+        confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 }, zIndex: 9999, colors: ['#dc3545', '#00529F', '#ffffff'] });
     }
 
-    // Efecto de Confeti automático (5 segundos)
+    // Easter egg: Función para tirar confeti al hacer click en la foto del novio
+    function tirarConfetiExtra() {
+        confetti({
+            particleCount: 80,
+            spread: 100,
+            origin: { y: 0.6 },
+            zIndex: 9999,
+            colors: ['#28a745', '#00529F', '#FFD700'] /* Colores temáticos */
+        });
+    }
+
+    // Efecto de Confeti automático al entrar (5 segundos)
     window.addEventListener('DOMContentLoaded', () => {
-        confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 }, zIndex: 9999 });
+        // Explosión inicial grande
+        confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 }, zIndex: 9999 });
 
         var duration = 5 * 1000;
         var animationEnd = Date.now() + duration;
