@@ -19,12 +19,38 @@
             padding: 20px; 
             overflow-x: hidden;
             position: relative;
+            transition: background 0.3s ease;
 
-            /* --- FONDO AZUL REAL OVIEDO --- */
-            background-color: #00529F;
+            /* --- GRADIENTE REAL OVIEDO (MEJORADO) --- */
+            background: linear-gradient(135deg, #002A54 0%, #00529F 50%, #002A54 100%);
         }
 
-        /* --- ANIMACIÓN Y ESTILOS DE LOS STICKERS ROTATIVOS --- */
+        /* --- MODO PÁNICO (ANIMACIÓN DE ALERTA ROJA) --- */
+        @keyframes modoAlerta {
+            0%, 100% { background: #dc3545; }
+            50% { background: #4a0d14; }
+        }
+        body.panic-active {
+            animation: modoAlerta 0.4s infinite !important;
+        }
+
+        /* --- BANNER DE EMERGENCIA DE PÁNICO --- */
+        #panic-banner {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 99999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* --- STICKERS TRANSPARENTES ROTATIVOS --- */
         @keyframes rotarSticker {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
@@ -33,14 +59,28 @@
         .bg-sticker {
             position: fixed;
             z-index: 1;
-            width: 130px; 
+            width: 120px; 
             height: auto;
-            pointer-events: none; 
-            opacity: 0.25; 
+            pointer-events: auto; /* Permite interactuar con ellos */
+            opacity: 0.95; 
+            
+            /* Sombra que contornea perfectamente la silueta recortada del sticker */
+            filter: drop-shadow(4px 4px 6px rgba(0,0,0,0.5)); 
             animation: rotarSticker 25s linear infinite; 
+            transition: transform 0.2s ease;
+            cursor: pointer;
         }
 
-        /* --- ANIMACIÓN DE ENTRADA DEL CONTENEDOR --- */
+        /* Efecto mareo al interactuar con el sticker */
+        .bg-sticker:hover {
+            animation-duration: 3s !important; /* Gira más rápido al pasar el cursor */
+        }
+        .bg-sticker:active {
+            animation-duration: 0.2s !important; /* ¡Gira como loco al clickar/tocar! */
+            transform: scale(1.3) !important;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
         @keyframes fadeInScale {
             0% { opacity: 0; transform: scale(0.9); }
             100% { opacity: 1; transform: scale(1); }
@@ -59,12 +99,11 @@
             animation: fadeInScale 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
-        /* --- CRUZ DE FARMACIA NEÓN --- */
+        /* Cruz de Farmacia Neón */
         @keyframes neonGlow {
-            0%, 100% { text-shadow: 0 0 10px rgba(40, 167, 69, 0.5), 0 0 20px rgba(40, 167, 69, 0.3); opacity: 0.8; }
-            50% { text-shadow: 0 0 20px rgba(40, 167, 69, 0.8), 0 0 30px rgba(40, 167, 69, 0.6); opacity: 1; }
+            0%, 100% { text-shadow: 0 0 10px rgba(40, 167, 69, 0.5); opacity: 0.8; }
+            50% { text-shadow: 0 0 20px rgba(40, 167, 69, 0.9); opacity: 1; }
         }
-
         .container::before {
             content: "✚";
             position: absolute;
@@ -75,7 +114,7 @@
             animation: neonGlow 2s infinite alternate;
         }
 
-        /* --- BOTONES DE IDIOMA --- */
+        /* Botones de Idioma */
         .lang-buttons { 
             margin-bottom: 25px; 
             text-align: center;
@@ -104,7 +143,7 @@
             transform: scale(1.05);
         }
 
-        /* --- DISPOSICIÓN DE COLUMNAS --- */
+        /* Columnas */
         .main-content {
             display: flex;
             flex-direction: row;
@@ -120,7 +159,6 @@
             text-align: left;
         }
 
-        /* --- TIPOGRAFÍAS --- */
         h1 { 
             color: #203a43; 
             font-size: 28px; 
@@ -145,30 +183,48 @@
             border-radius: 4px;
         }
 
-        /* --- FOTO INTERACTIVA DE JAVI --- */
+        /* Foto del Novio Interactiva */
         .groom-pic {
             max-width: 100%;
             max-height: 360px;
             height: auto;
             border-radius: 20px;
-            filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.2));
+            border: 6px solid white;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer; /* Cambia el cursor para invitar a tocar */
+            cursor: pointer; 
         }
-        .groom-pic:hover, .groom-pic:active {
-            transform: scale(1.08) rotate(-3deg);
-            filter: drop-shadow(0px 15px 20px rgba(0,0,0,0.3));
+        .groom-pic:hover {
+            transform: scale(1.06) rotate(-2deg);
         }
 
-        /* --- CUADRO DESTACADO CERVEZA (LATIDO) --- */
+        /* Botón Instagram Inteligente */
+        .ig-link-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 5px;
+        }
+        .ig-link-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+        }
+
+        /* Cuadro Cerveza (Latido) */
         @keyframes heartbeat {
             0% { transform: scale(1); }
-            14% { transform: scale(1.03); }
+            14% { transform: scale(1.02); }
             28% { transform: scale(1); }
-            42% { transform: scale(1.03); }
+            42% { transform: scale(1.02); }
             70% { transform: scale(1); }
         }
-
         .highlight { 
             background-color: #fff3cd; 
             padding: 18px; 
@@ -184,35 +240,120 @@
             animation: heartbeat 2.5s infinite;
         }
 
-        /* --- RESPONSIVE PARA MÓVIL --- */
+        /* --- ZONA INTERACTIVA (CHUPITÓMETRO & RECETA) --- */
+        .interactive-zone {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        .interactive-card {
+            flex: 1;
+            min-width: 250px;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 18px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .interactive-card h3 {
+            margin: 0 0 10px 0;
+            color: #203a43;
+            font-size: 18px;
+        }
+        .action-btn {
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .action-btn:hover { transform: scale(1.05); }
+
+        /* --- SECCIÓN DESPEDIDOL Y PROSPECTO --- */
+        .despedidol-section {
+            margin-top: 35px;
+            border-top: 3px dashed #cbd5e1;
+            padding-top: 25px;
+            text-align: center;
+        }
+        .despedidol-box-img {
+            max-width: 100%;
+            width: 380px;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
+        }
+        .despedidol-box-img:hover {
+            transform: scale(1.04) rotate(1deg);
+        }
+        .prospecto-container {
+            display: none;
+            background: #fffdf5;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: left;
+            font-family: 'Arial', sans-serif;
+            margin-top: 20px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .prospecto-container h2 {
+            color: #bd2130;
+            margin-top: 0;
+            font-size: 20px;
+            border-bottom: 2px dashed #bd2130;
+            padding-bottom: 5px;
+        }
+        .prospecto-container ul {
+            padding-left: 20px;
+            line-height: 1.6;
+        }
+
+        /* Botón de Pánico flotante */
+        .panic-trigger {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+        .panic-trigger:hover { opacity: 1; }
+
+        /* Responsive */
         @media (max-width: 700px) {
-            .main-content {
-                flex-direction: column;
-                gap: 20px;
-            }
-            .text-column {
-                text-align: center;
-            }
-            .groom-pic {
-                max-width: 75%;
-            }
-            h1 {
-                font-size: 24px;
-            }
-            .bg-sticker {
-                width: 90px; 
-            }
-            .container::before {
-                font-size: 35px; /* Cruz más pequeña en móvil */
-                top: 10px;
-                right: 15px;
-            }
+            .main-content { flex-direction: column; gap: 20px; }
+            .text-column { text-align: center; }
+            .groom-pic { max-width: 75%; }
+            h1 { font-size: 24px; }
+            .bg-sticker { width: 90px; }
+            .container::before { font-size: 35px; top: 10px; right: 15px; }
         }
     </style>
 </head>
 <body>
 
-<!-- STICKERS DE JAVI DE PEQUEÑO ROTANDO EN EL FONDO -->
+<!-- BANNER DE EMERGENCIA MODO PÁNICO -->
+<div id="panic-banner" onclick="desactivarPanico()">
+    <h1 style="font-size: 45px; color: #ffc107;">🚨 ¡ALERTA MÁXIMA! 🚨</h1>
+    <p style="font-size: 24px; font-weight: bold;">¡BORRA EL HISTORIAL JAVI, QUE VIENE LA JEFA!</p>
+    <p style="font-size: 16px; color: #aaa;">(Toca cualquier parte de la pantalla para apagar la alarma)</p>
+</div>
+
+<!-- STICKERS DE JAVI EN EL FONDO (CON FILTRO CONTORNO DE STICKER) -->
 <img src="novio-sticker.png" class="bg-sticker" style="top: 8%; left: 4%; animation-duration: 28s;" alt="Javi">
 <img src="novio-sticker.png" class="bg-sticker" style="top: 12%; right: 5%; animation-duration: 22s; animation-direction: reverse;" alt="Javi">
 <img src="novio-sticker.png" class="bg-sticker" style="top: 45%; left: 2%; animation-duration: 32s; animation-direction: reverse;" alt="Javi">
@@ -229,19 +370,20 @@
     </div>
 
     <div class="main-content">
-        <!-- Foto del novio (AÑADIDO ONCLICK PARA CONFETI EXTRA) -->
+        <!-- Foto interactiva del novio -->
         <div class="groom-column">
-            <img src="https://raw.githubusercontent.com/carlos-or27/despedida-farmaceutico/main/novio.png" class="groom-pic" alt="Último paseo en libertad" onclick="tirarConfetiExtra()" title="¡Tócame!">
+            <img src="https://raw.githubusercontent.com/carlos-or27/despedida-farmaceutico/main/novio.png" class="groom-pic" alt="Último paseo en libertad" onclick="tirarConfetiExtra()" title="¡Tócame para tirar confeti!">
         </div>
         
-        <!-- Textos informativos -->
+        <!-- Textos informativos localizados -->
         <div class="text-column">
             <!-- Español -->
             <div id="lang-es" class="lang-content">
                 <h1>💊 ÚLTIMA DOSIS DE LIBERTAD!</h1>
                 <p>El farmacéutico cuelga la bata por una buena causa (o eso cree él).</p>
                 <p>Para celebrarlo, tienes que interceptarlo allá donde esté y exigirle tu <strong>caramelo azul</strong> 🍬.</p>
-                <p>📸 <strong>¡Inmortaliza el momento!</strong> Hazle una foto al novio, súbela a tus historias y etiquétalo en su Instagram: <strong>@javieralo_so</strong></p>
+                <p>📸 <strong>¡Inmortaliza el momento!</strong> Hazle una foto al novio, súbela a tus historias y etiquétalo:</p>
+                <a href="https://instagram.com/javieralo_so" target="_blank" class="ig-link-btn">📸 Denunciar en @javieralo_so</a>
                 <p class="highlight">🍻 ¡Si esta noche nos encuentras y aún tienes el caramelo, te invitamos a una cerveza bien fría! 🍻</p>
             </div>
 
@@ -250,7 +392,8 @@
                 <h1>💊 ÚLTIMA DOSE DE LIBERDADE!</h1>
                 <p>O farmacêutico pendura a bata por uma boa causa (ou pelo menos é o que ele acha).</p>
                 <p>Para celebrar, tens de intercetar o noivo onde quer que ele esteja e exigir o teu <strong>caramelo azul</strong> 🍬.</p>
-                <p>📸 <strong>¡Imortaliza o momento!</strong> Tira uma foto ao noivo, publica-a nos teus stories e identifica-o no seu Instagram: <strong>@javieralo_so</strong></p>
+                <p>📸 <strong>¡Imortaliza o momento!</strong> Tira uma foto ao noivo, publica-a nos teus stories e identifica-o:</p>
+                <a href="https://instagram.com/javieralo_so" target="_blank" class="ig-link-btn">📸 Identificar em @javieralo_so</a>
                 <p class="highlight">🍻 Se nos encontrares esta noite e ainda tiveres o caramelo... PAGAMOS-TE UMA CERVEJA BEM FRESCA! 🍻</p>
             </div>
 
@@ -259,52 +402,181 @@
                 <h1>💊 LAST DOSE OF FREEDOM!</h1>
                 <p>The pharmacist hangs up his lab coat for a good cause (or so he thinks).</p>
                 <p>To celebrate, you have to intercept the groom wherever he is and demand your <strong>blue candy</strong> 🍬.</p>
-                <p>📸 <strong>Capture the moment!</strong> Take a picture of the groom, post it on your stories and tag his Instagram: <strong>@javieralo_so</strong></p>
+                <p>📸 <strong>Capture the moment!</strong> Take a picture of the groom, post it on your stories and tag him:</p>
+                <a href="https://instagram.com/javieralo_so" target="_blank" class="ig-link-btn">📸 Report at @javieralo_so</a>
                 <p class="highlight">🍻 If you find us tonight and you still have the candy... WE'LL BUY YOU A COLD BEER! 🍻</p>
             </div>
         </div>
     </div>
+
+    <!-- ZONA INTERACTIVA (CHUPITÓMETRO Y EXPRES RECETA) -->
+    <div class="interactive-zone">
+        <div class="interactive-card">
+            <h3>🎚️ CHUPITÓMETRO VIRTUAL</h3>
+            <p style="font-family:'Arial',sans-serif; font-size:14px; margin:5px 0 12px 0;">¿Le has pagado una copa/cerveza real a Javi?</p>
+            <div id="chupito-num" style="font-size:36px; color:#dc3545; font-weight:bold; margin-bottom:10px;">0</div>
+            <button class="action-btn" style="background:#28a745; color:white;" onclick="sumarChupito()">¡Invitar a Dosis! 🥃</button>
+        </div>
+        <div class="interactive-card">
+            <h3>🩺 DIAGNÓSTICO EXPRESS</h3>
+            <p style="font-family:'Arial',sans-serif; font-size:14px; margin:5px 0 25px 0;">¿Cómo ves al paciente? Pídele una receta inmediata.</p>
+            <button class="action-btn" style="background:#00529F; color:white;" onclick="generarReceta()">Generar Receta 📄</button>
+        </div>
+    </div>
+
+    <!-- SECCIÓN INTERACTIVA DE DESPEDIDOL 1000MG -->
+    <div class="despedidol-section">
+        <img src="despedidol_2x_sin_fondo.jpg" alt="Despedidol 1000mg" class="despedidol-box-img" onclick="toggleProspecto()">
+        <p style="font-family:'Arial',sans-serif; font-size:13px; color:#555; margin-top:8px;" id="txt-clic-caja">👇 ¡Toca la caja para leer el prospecto médico! 👇</p>
+        
+        <div id="prospecto-desplegable" class="prospecto-container">
+            <!-- Prospecto ES -->
+            <div id="prospecto-es" class="prospecto-lang">
+                <h2>📋 PROSPECTO: DESPEDIDOL 1000mg</h2>
+                <p><strong>Indicaciones:</strong> Tratamiento de choque contra la soltería crónica avanzada y prevención del libre albedrío.</p>
+                <p><strong>Composición:</strong> 60 comprimidos recubiertos de paciencia infinita, amor ciego y reducción forzosa del espacio en el armario.</p>
+                <p><strong>Efectos Secundarios Conocidos:</strong></p>
+                <ul>
+                    <li>Pérdida total y absoluta de la última palabra en cualquier discusión.</li>
+                    <li>Obediencia ciega automática inmediata ante la frase: *"Javi, saca la basura"*.</li>
+                    <li>Sed insaciable de cerveza fría con riesgo alto de resaca monumental.</li>
+                    <li>Amnesia selectiva total sobre lo ocurrido en esta despedida.</li>
+                </ul>
+            </div>
+            <!-- Prospecto PT -->
+            <div id="prospecto-pt" class="prospecto-lang" style="display:none;">
+                <h2>📋 FOLHETO INFORMATIVO: DESPEDIDOL 1000mg</h2>
+                <p><strong>Indicações:</strong> Tratamento de choque contra a solteirice crónica e prevenção do livre arbítrio.</p>
+                <p><strong>Composição:</strong> 60 comprimidos carregados de paciência infinita, amor cego e redução forçada de espaço no guarda-roupa.</p>
+                <p><strong>Efeitos Secundários:</strong></p>
+                <ul>
+                    <li>Perda total e absoluta da última palavra em qualquer discussão.</li>
+                    <li>Obediência cega imediata perante a frase: *"Javi, deita o lixo fora"*.</li>
+                    <li>Sede insaciável de cerveja fresca com alto risco de ressaca monumental.</li>
+                    <li>Amnésia seletiva total sobre o que aconteceu nesta despedida.</li>
+                </ul>
+            </div>
+            <!-- Prospecto EN -->
+            <div id="prospecto-en" class="prospecto-lang" style="display:none;">
+                <h2>📋 PATIENT LEAFLET: DESPEDIDOL 1000mg</h2>
+                <p><strong>Indications:</strong> Shock treatment for chronic bachelorhood and prevention of free will.</p>
+                <p><strong>Composition:</strong> 60 tablets packed with infinite patience, blind love, and mandatory wardrobe space reduction.</p>
+                <p><strong>Known Side Effects:</strong></p>
+                <ul>
+                    <li>Total and absolute loss of the last word in any argument.</li>
+                    <li>Immediate blind obedience triggered by the phrase: *"Javi, take out the trash"*.</li>
+                    <li>Insatiable thirst for ice-cold beer with a high risk of a monumental hangover.</li>
+                    <li>Total selective amnesia regarding everything that happened tonight.</li>
+                </ul>
+            </div>
+            <p style="font-size:11px; color:#888; margin-top:15px; font-style:italic;">*Laboratorios La Cuadrilla. En caso de duda, no consulte a su médico, páguese otra ronda.</p>
+        </div>
+    </div>
+
+    <!-- BOTÓN DE PÁNICO OCULTO -->
+    <button class="panic-trigger" onclick="activarPanico()">🚨 MODO PÁNICO</button>
 </div>
 
 <script>
-    // Cambiar de idioma
+    let idiomaActual = 'es';
+
+    // Cambiar de idioma y sincronizar los prospectos
     function setLanguage(lang) {
+        idiomaActual = lang;
         document.querySelectorAll('.lang-content').forEach(el => el.style.display = 'none');
         document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById('lang-' + lang).style.display = 'block';
         event.currentTarget.classList.add('active');
+
+        // Sincronizar textos del prospecto si estuviera abierto
+        document.querySelectorAll('.prospecto-lang').forEach(el => el.style.display = 'none');
+        document.getElementById('prospecto-' + lang).style.display = 'block';
+
+        // Traducción rápida del texto de aviso de la caja
+        const txtCaja = document.getElementById('txt-clic-caja');
+        if(lang === 'es') txtCaja.innerText = "👇 ¡Toca la caja para leer el prospecto médico! 👇";
+        if(lang === 'pt') txtCaja.innerText = "👇 Toque na caixa para ler o folheto informativo! 👇";
+        if(lang === 'en') txtCaja.innerText = "👇 Tap the box to read the patient leaflet! 👇";
         
-        // Un poquito de confeti cada vez que alguien cambia de idioma
         confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 }, zIndex: 9999, colors: ['#dc3545', '#00529F', '#ffffff'] });
     }
 
-    // Easter egg: Función para tirar confeti al hacer click en la foto del novio
-    function tirarConfetiExtra() {
-        confetti({
-            particleCount: 80,
-            spread: 100,
-            origin: { y: 0.6 },
-            zIndex: 9999,
-            colors: ['#28a745', '#00529F', '#FFD700'] /* Colores temáticos */
-        });
+    // Desplegar/Ocultar Prospecto
+    function toggleProspecto() {
+        const pros = document.getElementById('prospecto-desplegable');
+        if (pros.style.display === 'block') {
+            pros.style.display = 'none';
+        } else {
+            pros.style.display = 'block';
+            pros.scrollIntoView({ behavior: 'smooth' });
+        }
     }
 
-    // Efecto de Confeti automático al entrar (5 segundos)
-    window.addEventListener('DOMContentLoaded', () => {
-        // Explosión inicial grande
-        confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 }, zIndex: 9999 });
+    // Confeti extra al tocar al novio
+    function tirarConfetiExtra() {
+        confetti({ particleCount: 80, spread: 100, origin: { y: 0.6 }, zIndex: 9999, colors: ['#28a745', '#00529F', '#FFD700'] });
+    }
 
+    // Chupitómetro LocalStorage
+    if(!localStorage.getItem('chupitos')) localStorage.setItem('chupitos', '0');
+    document.getElementById('chupito-num').innerText = localStorage.getItem('chupitos');
+
+    function sumarChupito() {
+        let count = parseInt(localStorage.getItem('chupitos')) + 1;
+        localStorage.setItem('chupitos', count);
+        document.getElementById('chupito-num').innerText = count;
+        confetti({ particleCount: 40, scalar: 1.2, text: '🥃' });
+    }
+
+    // Generador de Diagnósticos Dinámicos
+    const recetas = {
+        es: [
+            "🩺 Diagnóstico: Falta grave de hidratación fiestera. Prescripción: 1 copa de Ron de urgencia.",
+            "🩺 Diagnóstico: Ataque de pánico preboda. Tratamiento: Cantar el himno del Oviedo abrazando a Javi.",
+            "🩺 Diagnóstico: Delirio transitorio de soltero. Tratamiento: Un trago largo y colleja de los amigos.",
+            "🩺 Diagnóstico: Taquicardia del novio. Tratamiento: Que alguien le traiga una caña bien fría ya."
+        ],
+        pt: [
+            "🩺 Diagnóstico: Desidratação grave de festa. Prescrição: 1 copo de Rum de emergência.",
+            "🩺 Diagnóstico: Ataque de pânico pré-casamento. Tratamento: Cantar o hino do Oviedo abraçando o Javi.",
+            "🩺 Diagnóstico: Delírio temporário de solteiro. Tratamento: Um gole longo e um abraço do grupo.",
+            "🩺 Diagnóstico: Taquicardia do noivo. Tratamento: Tragam-lhe uma cerveja bem fresca agora mesmo."
+        ],
+        en: [
+            "🩺 Diagnosis: Severe party dehydration. Prescription: 1 emergency glass of Rum.",
+            "🩺 Diagnosis: Pre-wedding panic attack. Treatment: Sing the Oviedo anthem while hugging Javi.",
+            "🩺 Diagnosis: Temporary bachelor delusion. Treatment: Take a long drink and get a high five.",
+            "🩺 Diagnosis: Groom's tachycardia. Treatment: Someone bring him a cold beer immediately."
+        ]
+    };
+
+    function generarReceta() {
+        const frases = recetas[idiomaActual];
+        const aleatoria = frases[Math.floor(Math.random() * frases.length)];
+        alert(aleatoria);
+    }
+
+    // Control de Modo Pánico
+    function activarPanico() {
+        document.body.classList.add('panic-active');
+        document.getElementById('panic-banner').style.display = 'flex';
+    }
+    function desactivarPanico() {
+        document.body.classList.remove('panic-active');
+        document.getElementById('panic-banner').style.display = 'none';
+    }
+
+    // Confeti de inicio automático (5 segundos)
+    window.addEventListener('DOMContentLoaded', () => {
+        confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 }, zIndex: 9999 });
         var duration = 5 * 1000;
         var animationEnd = Date.now() + duration;
         var defaults = { startVelocity: 25, spread: 360, ticks: 50, zIndex: 9999 };
-
         function randomInRange(min, max) { return Math.random() * (max - min) + min; }
-
         var interval = setInterval(function() {
             var timeLeft = animationEnd - Date.now();
             if (timeLeft <= 0) return clearInterval(interval);
             var particleCount = 40 * (timeLeft / duration);
-            
             confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
             confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
         }, 250);
