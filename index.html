@@ -17,12 +17,27 @@
             align-items: center;
             justify-content: center;
             padding: 20px; 
+            overflow-x: hidden;
+            position: relative;
 
-            /* --- FONDO DE NEONES: SOLO CERVEZAS Y COPAS --- */
-            background-color: #070913;
-            background-image: url("data:image/svg+xml,%3Csvg width='180' height='180' xmlns='http://www.w3.org/2000/svg'%3E%3C!-- Jarra de Cerveza Amarilla --%3E%3Cg transform='translate(30, 25) rotate(-10)'%3E%3Cpath d='M10,20 L10,45 C10,49 13,52 17,52 L33,52 C37,52 40,49 40,45 L40,20 Z' fill='none' stroke='%23ffeb3b' stroke-width='2.5' style='filter: drop-shadow(0 0 5px %23ffeb3b);'/%3E%3Cpath d='M40,27 L47,27 C50,27 50,40 47,40 L40,40' fill='none' stroke='%23ffeb3b' stroke-width='2.5' style='filter: drop-shadow(0 0 5px %23ffeb3b);'/%3E%3Cpath d='M7,20 Q25,12 43,20' fill='none' stroke='%23ffffff' stroke-width='3.5' style='filter: drop-shadow(0 0 4px %23ffffff);'/%3E%3C/g%3E%3C!-- Copa de Cóctel Cian --%3E%3Cg transform='translate(120, 105) rotate(15)'%3E%3Cpath d='M5,5 L40,5 L22.5,28 Z' fill='none' stroke='%2300e5ff' stroke-width='2.5' style='filter: drop-shadow(0 0 6px %2300e5ff);'/%3E%3Cline x1='22.5' y1='28' x2='22.5' y2='50' stroke='%2300e5ff' stroke-width='2.5' style='filter: drop-shadow(0 0 6px %2300e5ff);'/%3E%3Cline x1='10' y1='50' x2='35' y2='50' stroke='%2300e5ff' stroke-width='2.5' style='filter: drop-shadow(0 0 6px %2300e5ff);'/%3E%3C/g%3E%3C/svg%3E");
-            background-size: 180px 180px;
-            background-repeat: repeat;
+            /* --- FONDO AZUL REAL OVIEDO --- */
+            background-color: #00529F;
+        }
+
+        /* --- ANIMACIÓN Y ESTILOS DE LOS STICKERS ROTATIVOS --- */
+        @keyframes rotarSticker {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .bg-sticker {
+            position: fixed;
+            z-index: 1;
+            width: 130px; /* Tamaño de los stickers de fondo */
+            height: auto;
+            pointer-events: none; /* Para que no estorben al hacer clic en la web */
+            opacity: 0.25; /* Transparencia para que se note el efecto sin tapar el texto */
+            animation: rotarSticker 25s linear infinite; /* Rotación continua y suave */
         }
 
         .container { 
@@ -34,7 +49,7 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); 
             border: 4px solid #203a43;
             position: relative;
-            z-index: 10;
+            z-index: 10; /* Se mantiene por encima de los stickers */
         }
 
         /* Símbolo "+" decorativo de farmacia */
@@ -148,10 +163,22 @@
             h1 {
                 font-size: 24px;
             }
+            .bg-sticker {
+                width: 90px; /* Un poco más pequeños en móvil para que no saturen */
+            }
         }
     </style>
 </head>
 <body>
+
+<!-- STICKERS DE JAVI DE PEQUEÑO ROTANDO EN EL FONDO -->
+<!-- Se distribuyen por la pantalla con diferentes velocidades y direcciones de rotación -->
+<img src="novio-sticker.png" class="bg-sticker" style="top: 8%; left: 4%; animation-duration: 28s;" alt="Javi">
+<img src="novio-sticker.png" class="bg-sticker" style="top: 12%; right: 5%; animation-duration: 22s; animation-direction: reverse;" alt="Javi">
+<img src="novio-sticker.png" class="bg-sticker" style="top: 45%; left: 2%; animation-duration: 32s; animation-direction: reverse;" alt="Javi">
+<img src="novio-sticker.png" class="bg-sticker" style="top: 52%; right: 3%; animation-duration: 25s;" alt="Javi">
+<img src="novio-sticker.png" class="bg-sticker" style="bottom: 8%; left: 6%; animation-duration: 20s;" alt="Javi">
+<img src="novio-sticker.png" class="bg-sticker" style="bottom: 10%; right: 7%; animation-duration: 30s; animation-direction: reverse;" alt="Javi">
 
 <div class="container">
     <!-- Selector de idioma -->
